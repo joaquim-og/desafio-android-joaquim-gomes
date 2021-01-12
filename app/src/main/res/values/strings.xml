@@ -1,3 +1,7 @@
 <resources>
     <string name="app_name">Desafio Android Joaquim Gomes</string>
+    <string name="name_home">Tela inicial</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="no_network">Parece que o sinal da sua internet está indisponível 📶</string>
 </resources>
