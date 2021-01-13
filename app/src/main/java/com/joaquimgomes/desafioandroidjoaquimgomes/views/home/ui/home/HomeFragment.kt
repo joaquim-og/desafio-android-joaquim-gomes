@@ -46,6 +46,9 @@ class HomeFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        homeViewModel.getAllCharactersInfo()
+        homeViewModel.getCharacterComics(1009664)
+
         if (networkIsConnected) {
 //            observerAllCharacters()
 //            showImgLoading()
