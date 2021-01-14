@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="fragment_home_dimen_text_expense_sum">18sp</dimen>
+    <dimen name="fragment_home_dimen_text_character_name">18sp</dimen>
+    <dimen name="fragment_home_dimen_text_characer_description">16sp</dimen>
+    <dimen name="fragment_home_dimen_text_no_internet">18sp</dimen>
+    <dimen name="fragment_home_dimen_text_loading_data">18sp</dimen>
+    <dimen name="fragment_home_dimen_text_no_server_data">18sp</dimen>
+</resources>

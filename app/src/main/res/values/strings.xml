@@ -1,7 +1,13 @@
 <resources>
     <string name="app_name">Desafio Android Joaquim Gomes</string>
     <string name="name_home">Tela inicial</string>
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="no_network">Parece que o sinal da sua internet está indisponível 📶</string>
+    <string name="fragment_home_text_loading_data">Carregando dados</string>
+    <string name="fragment_home_character_thumbnail">Imagem do herói</string>
+    <string name="fragment_home_textholder_character_name">Nome herói</string>
+    <string name="fragment_home_textholder_character_description">Descrição do herói</string>
+    <string name="fragment_home_text_no_internet">Sem acesso a internet</string>
+    <string name="fragment_home_text_no_server_data">Não foi possível carregar os dados</string>
+    <string name="error_get_expenses_from_server_no_data">Não foi possível carregar os dados</string>
+    <string name="card_character_no_description_in_API">Esse herói não tem descrição 😅</string>
 </resources>
