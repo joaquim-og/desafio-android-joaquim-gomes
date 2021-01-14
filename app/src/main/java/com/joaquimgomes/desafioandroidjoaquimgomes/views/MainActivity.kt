@@ -1,8 +1,8 @@
 package com.joaquimgomes.desafioandroidjoaquimgomes.views
 
+import android.content.Context
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import androidx.navigation.findNavController
 import com.joaquimgomes.desafioandroidjoaquimgomes.R
 
 class MainActivity : AppCompatActivity() {
@@ -12,6 +12,8 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
 
         supportActionBar?.setDisplayShowHomeEnabled(true)
+
+
 
     }
 
