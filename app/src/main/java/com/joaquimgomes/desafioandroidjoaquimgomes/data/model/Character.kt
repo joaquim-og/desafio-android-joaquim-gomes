@@ -18,7 +18,7 @@ data class Character(
 data class ListCharacter(
 
     @SerializedName("results")
-    var listCharacter: MutableList<Character>
+    var listCharacter: List<Character>
 
 )
 

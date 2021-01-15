@@ -9,7 +9,7 @@ data class Comics (
     @SerializedName("title")
     var title: String? = null,
     @SerializedName("prices")
-    var prices: MutableList<ComicsPricesInfo>,
+    var prices: List<ComicsPricesInfo>,
     @SerializedName("thumbnail")
     var characterComicsThumbnail: ComicsThumbnailInfo
 
@@ -18,7 +18,7 @@ data class Comics (
 data class ListComics(
 
     @SerializedName("results")
-    var listComics: MutableList<Comics>
+    var listComics: List<Comics>
 
 )
 

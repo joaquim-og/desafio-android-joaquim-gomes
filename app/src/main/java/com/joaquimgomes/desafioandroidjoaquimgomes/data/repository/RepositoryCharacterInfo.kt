@@ -9,11 +9,14 @@ import com.joaquimgomes.desafioandroidjoaquimgomes.data.model.CharactersApiResul
 
 interface RepositoryCharacterInfo {
 
-    val listCharacterData: MutableLiveData<MutableList<Character>?>
-        get() = MutableLiveData<MutableList<Character>?>()
+    val listCharacterData: MutableLiveData<List<Character>?>
+        get() = MutableLiveData<List<Character>?>()
+
+    val listCharacterComic: MutableLiveData<List<Comics>?>
+        get() = MutableLiveData<List<Comics>?>()
 
     fun getCharactersInfo(ts: String, apikey: String, hash: String)
 
-//    fun getCharacterComics(characterId: Int, ts: String, apikey: String, hash: String): LiveData<CharacterComicApiResult>
+    fun getCharacterComics(characterId: Int, ts: String, apikey: String, hash: String)
 
 }

@@ -5,7 +5,6 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.view.isVisible
 import androidx.databinding.DataBindingUtil
@@ -59,8 +58,6 @@ class HomeFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-//        homeViewModel.getCharacterComics(1009664)
-
         if (networkIsConnected) {
             homeViewModel.getAllCharactersInfo()
             observerAllCharacters()
@@ -76,7 +73,7 @@ class HomeFragment : Fragment() {
         homeViewModel.charactersServerData.observe(viewLifecycleOwner, Observer { characters ->
 
             if (characters.isNullOrEmpty()) {
-                toast.setToastMessage(context, R.string.error_get_expenses_from_server_no_data)
+                toast.setToastMessage(context, R.string.error_no_server_data)
                 hideImgLoading()
                 showImgNoServerData()
 //                showButtonReload()
