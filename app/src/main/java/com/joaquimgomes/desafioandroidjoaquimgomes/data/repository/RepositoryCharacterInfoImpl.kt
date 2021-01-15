@@ -14,7 +14,7 @@ class RepositoryCharacterInfoImpl : RepositoryCharacterInfo {
 
     private val remoteDataSource = RemoteDataSourceCharacterInfo()
 
-    override val listCharacterData = MutableLiveData<MutableList<Character>>()
+    override val listCharacterData = MutableLiveData<MutableList<Character>?>()
 
     override fun getCharactersInfo(
         ts: String,
@@ -31,11 +31,19 @@ class RepositoryCharacterInfoImpl : RepositoryCharacterInfo {
                 response: Response<CharactersApiResult>
             ) {
 
-                val responseJSON = Gson().toJson(response.body())
-                val responseData = GsonBuilder().create()
-                    .fromJson(responseJSON, CharactersApiResult::class.java)
+                if (response.isSuccessful) {
 
-                listCharacterData.postValue(responseData.data.listCharacter)
+                    val responseJSON = Gson().toJson(response.body())
+                    val responseData = GsonBuilder().create()
+                        .fromJson(responseJSON, CharactersApiResult::class.java)
+
+                    listCharacterData.postValue(responseData.data.listCharacter)
+
+                } else {
+
+                    listCharacterData.postValue(null)
+
+                }
 
             }
 
