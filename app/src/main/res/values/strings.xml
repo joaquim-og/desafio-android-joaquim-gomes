@@ -9,5 +9,9 @@
     <string name="fragment_home_text_no_internet">Sem acesso a internet</string>
     <string name="fragment_home_text_no_server_data">Não foi possível carregar os dados</string>
     <string name="error_get_expenses_from_server_no_data">Não foi possível carregar os dados</string>
-    <string name="card_character_no_description_in_API">Esse herói não tem descrição 😅</string>
+    <string name="text_character_no_description_in_API">Esse personagem não tem descrição 😅</string>
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="fragment_character_details_button_nav_to_comic">Qual é a revista mais cara?</string>
+    <string name="fragment_character_details_text_Field_Name">Nome do pesonagem</string>
+    <string name="fragment_character_details_text_Field_Description">Descrição</string>
 </resources>

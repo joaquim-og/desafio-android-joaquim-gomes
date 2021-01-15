@@ -11,6 +11,8 @@ import androidx.core.view.isVisible
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
+import androidx.navigation.NavDirections
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.joaquimgomes.desafioandroidjoaquimgomes.R
@@ -72,17 +74,16 @@ class HomeFragment : Fragment() {
     private fun observerAllCharacters() {
 
         homeViewModel.charactersServerData.observe(viewLifecycleOwner, Observer { characters ->
-            if (characters.isEmpty()) {
+
+            if (characters.isNullOrEmpty()) {
                 toast.setToastMessage(context, R.string.error_get_expenses_from_server_no_data)
                 hideImgLoading()
                 showImgNoServerData()
 //                showButtonReload()
             } else {
-                Toast.makeText(context, "aqui A BAGAçA INDO PRO LUGAR CERTO -> $characters", Toast.LENGTH_LONG).show()
                 displayCharacters(characters)
             }
-        }
-        )
+        })
 
     }
 
@@ -104,33 +105,28 @@ class HomeFragment : Fragment() {
 
     private fun navigateToCharacterDetails(character: Character) {
 
-        Toast.makeText(context, character.toString(), Toast.LENGTH_LONG).show()
-//        val firebaseExpenseDate = setFormatterDate.setFormatterDate(expense.date?.toDate())
-//        val category = expense.category
-//        val description = expense.description
-//        val urlImg = expense.url_img
-//        val value = expense.value.toString()
-//        val idExpense = expense.id
-//
-//        var argsToFragmentExpense: NavDirections? = null
-//
-//        argsToFragmentExpense =
-//            HomeFragmentDirections.actionNavigationHomeToExpenseFragment(
-//                category,
-//                firebaseExpenseDate,
-//                description,
-//                urlImg,
-//                value,
-//                idExpense
-//            )
-//
-//        this.findNavController().navigate(argsToFragmentExpense)
+        homeViewModel.getAllCharacterComics(character.id)
+
+        val characterName = character.name
+        val characterDescription = character.description
+        val characterImage =
+            character.characterThumbnail.path + "." + character.characterThumbnail.extension
+
+        var argsToFragmentCharacterDetails: NavDirections? = null
+
+        argsToFragmentCharacterDetails =
+            HomeFragmentDirections.actionHomeFragmentToCharacterDetailsFragment(
+                characterName,
+                characterImage,
+                characterDescription
+            )
+
+        this.findNavController().navigate(argsToFragmentCharacterDetails)
     }
 
     private fun setupViews() {
 
         charactersRecyclerView.layoutManager = LinearLayoutManager(this.context)
-        homeViewModel.clearListCharacters()
 
     }
 

@@ -7,8 +7,7 @@
 
     <FrameLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:background="@android:color/white">
+        android:layout_height="match_parent">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/fragment_home_W_internet_loading_placeholder_container"
@@ -43,7 +42,6 @@
                 android:layout_marginTop="5dp"
                 android:elevation="15dp"
                 android:text="@string/fragment_home_text_loading_data"
-                android:textColor="@color/black"
                 android:textSize="@dimen/fragment_home_dimen_text_loading_data"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
@@ -84,7 +82,6 @@
                 android:layout_marginTop="5dp"
                 android:elevation="15dp"
                 android:text="@string/fragment_home_text_no_internet"
-                android:textColor="@color/black"
                 android:textSize="@dimen/fragment_home_dimen_text_no_internet"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
@@ -125,7 +122,6 @@
                 android:layout_marginTop="5dp"
                 android:elevation="15dp"
                 android:text="@string/fragment_home_text_no_server_data"
-                android:textColor="@color/black"
                 android:textSize="@dimen/fragment_home_dimen_text_no_server_data"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"

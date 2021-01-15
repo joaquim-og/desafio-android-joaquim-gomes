@@ -19,12 +19,18 @@ class HomeViewModel(private val repository: RepositoryCharacterInfo = Repository
     private val hash = makeMarvelHash()
 
     private val _charactersServerData = repository.listCharacterData
-    val charactersServerData: LiveData<MutableList<Character>>
+    val charactersServerData: LiveData<MutableList<Character>?>
         get() = _charactersServerData
 
 
     fun getAllCharactersInfo() {
         repository.getCharactersInfo(ts, apikey, hash)
+    }
+
+    fun getAllCharacterComics(characterId: Number?){
+
+        //TODO get server info, and put value on livedata above, like charactersinfo
+
     }
 
 
@@ -35,10 +41,6 @@ class HomeViewModel(private val repository: RepositoryCharacterInfo = Repository
 
         return BigInteger(1,messageDigest.digest(input.toByteArray())).toString(16).padStart(32, '0')
 
-    }
-
-    fun clearListCharacters() {
-        _charactersServerData.postValue(null)
     }
 
     private fun <T> MutableLiveData<T>.notifyObserver() {

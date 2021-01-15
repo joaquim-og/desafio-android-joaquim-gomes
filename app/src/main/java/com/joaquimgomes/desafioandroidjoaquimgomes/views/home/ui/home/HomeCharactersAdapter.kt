@@ -2,7 +2,6 @@ package com.joaquimgomes.desafioandroidjoaquimgomes.views.home.ui.home
 
 import android.animation.AnimatorSet
 import android.animation.ObjectAnimator
-import android.content.res.Resources
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -16,7 +15,6 @@ import com.joaquimgomes.desafioandroidjoaquimgomes.R
 import com.joaquimgomes.desafioandroidjoaquimgomes.data.model.Character
 import com.joaquimgomes.desafioandroidjoaquimgomes.data.model.CharacterThumbnailInfo
 import com.joaquimgomes.desafioandroidjoaquimgomes.databinding.CardCharacterBinding
-import java.security.AccessController.getContext
 
 class HomeCharactersAdapter(
     private val character: List<Character>,
@@ -105,7 +103,7 @@ fun setImg(imgView: ImageView, characterThumbnail: CharacterThumbnailInfo) {
 fun setCharacterDescription(txtView: TextView, characterDescription: String) {
 
     if (characterDescription.isNullOrEmpty()) {
-        txtView.text = txtView.resources.getString(R.string.card_character_no_description_in_API)
+        txtView.text = txtView.resources.getString(R.string.text_character_no_description_in_API)
     } else {
         txtView.text = characterDescription
     }
