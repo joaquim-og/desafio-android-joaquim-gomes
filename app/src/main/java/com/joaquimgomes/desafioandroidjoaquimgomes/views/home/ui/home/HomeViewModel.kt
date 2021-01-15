@@ -5,6 +5,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.joaquimgomes.desafioandroidjoaquimgomes.data.commom.GetCurrency
 import com.joaquimgomes.desafioandroidjoaquimgomes.data.model.Character
+import com.joaquimgomes.desafioandroidjoaquimgomes.data.model.Comics
 import com.joaquimgomes.desafioandroidjoaquimgomes.data.repository.RepositoryCharacterInfo
 import com.joaquimgomes.desafioandroidjoaquimgomes.data.repository.RepositoryCharacterInfoImpl
 import java.math.BigInteger
@@ -19,17 +20,27 @@ class HomeViewModel(private val repository: RepositoryCharacterInfo = Repository
     private val hash = makeMarvelHash()
 
     private val _charactersServerData = repository.listCharacterData
-    val charactersServerData: LiveData<MutableList<Character>?>
+    val charactersServerData: LiveData<List<Character>?>
         get() = _charactersServerData
 
+    private val _characterComicsServerData = repository.listCharacterComic
+    val characterComicsServerData: LiveData<List<Comics>?>
+        get() = _characterComicsServerData
 
-    fun getAllCharactersInfo() {
-        repository.getCharactersInfo(ts, apikey, hash)
-    }
 
-    fun getAllCharacterComics(characterId: Number?){
+    fun getAllCharactersInfo() = repository.getCharactersInfo(ts, apikey, hash)
 
-        //TODO get server info, and put value on livedata above, like charactersinfo
+
+    fun getAllCharacterComics(characterId: Number?) = characterId?.toInt()?.let { repository.getCharacterComics(it, ts, apikey, hash) }
+
+
+    fun getCharacterMostExpansiveComic(comics: List<Comics>): List<Comics> {
+
+//        TODO catch all data and query most expansive
+
+        println("AQUI AS REVISTAS RECEBIDAS -> $comics")
+
+        return comics
 
     }
 
