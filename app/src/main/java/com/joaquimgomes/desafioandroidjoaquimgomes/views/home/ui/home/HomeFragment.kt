@@ -5,6 +5,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Button
 import androidx.appcompat.app.AppCompatActivity
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.view.isVisible
@@ -33,8 +34,11 @@ class HomeFragment : Fragment() {
     private lateinit var imgLoadingContainer: ConstraintLayout
     private lateinit var imgErrorNoNetwork: ConstraintLayout
     private lateinit var imgErrorNoData: ConstraintLayout
+    private lateinit var btnLoadMoreCharacterData: Button
 
     private var networkIsConnected: Boolean = false
+    private var valueQueryServerOffSet = 0
+    private val sizeCharacterPagination = 20
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -61,7 +65,7 @@ class HomeFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         if (networkIsConnected) {
-            homeViewModel.getAllCharactersInfo()
+            homeViewModel.getAllCharactersInfo(valueQueryServerOffSet)
             observerAllCharacters()
             showImgLoading()
         } else {
@@ -77,10 +81,17 @@ class HomeFragment : Fragment() {
             if (characters == null) {
                 hideImgLoading()
                 showImgNoServerData()
-//                showButtonReload()
             } else {
                 displayCharacters(characters)
             }
+        })
+
+        homeViewModel.hasAllServerCharacterDataLoaded.observe(viewLifecycleOwner, Observer{
+
+            if (it) {
+                btnLoadMoreCharacterData.isEnabled = false
+            }
+
         })
 
     }
@@ -97,6 +108,16 @@ class HomeFragment : Fragment() {
             charactersRecyclerView.adapter = characterAdapter
             characterAdapter.notifyDataSetChanged()
             hideImgLoading()
+            showButtonLoadMoreData()
+
+            btnLoadMoreCharacterData.setOnClickListener {
+
+                valueQueryServerOffSet = valueQueryServerOffSet.plus(sizeCharacterPagination)
+
+                homeViewModel.getAllCharactersInfo(valueQueryServerOffSet)
+                characterAdapter.notifyDataSetChanged()
+
+            }
         }
 
     }
@@ -138,6 +159,7 @@ class HomeFragment : Fragment() {
         imgErrorNoNetwork = binding.fragmentHomeWOInternetLoadingPlaceholderContainer
         imgErrorNoData = binding.fragmentHomeNoServerDataPlaceholderContainer
         charactersRecyclerView = binding.fragmentHomeMainRecyclerViewCharacters
+        btnLoadMoreCharacterData = binding.fragmentHomeButtonLoadMoreData
 
     }
 
@@ -161,6 +183,10 @@ class HomeFragment : Fragment() {
 
     private fun clearAllCharactersInfo() {
         homeViewModel.clearAllCharactersInfo()
+    }
+
+    private fun showButtonLoadMoreData() {
+        btnLoadMoreCharacterData.isVisible = true
     }
 
 }

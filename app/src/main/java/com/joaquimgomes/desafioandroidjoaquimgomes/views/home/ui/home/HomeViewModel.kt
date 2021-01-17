@@ -27,12 +27,16 @@ class HomeViewModel(private val repository: RepositoryCharacterInfo = Repository
     val characterComicsServerData: LiveData<MutableList<Comics>?>
         get() = _characterComicsServerData
 
+    private val _hasAllServerCharacterDataLoaded = repository.hasAllServerCharacterDataLoaded
+    val hasAllServerCharacterDataLoaded: MutableLiveData<Boolean>
+        get() = _hasAllServerCharacterDataLoaded
 
-    fun getAllCharactersInfo() = repository.getCharactersInfo(ts, apikey, hash)
+
+    fun getAllCharactersInfo(queryServerOffSet: Int) = repository.getCharactersInfo(ts, apikey, hash, queryServerOffSet)
 
 
-    fun getAllCharacterComics(characterId: Number?) =
-        characterId?.toInt()?.let { repository.getCharacterComics(it, ts, apikey, hash) }
+
+    fun getAllCharacterComics(characterId: Number?) = characterId?.toInt()?.let { repository.getCharacterComics(it, ts, apikey, hash) }
 
 
     fun getCharacterMostExpensiveComic(comics: List<Comics>): ComicsWithHighestPrice? {
