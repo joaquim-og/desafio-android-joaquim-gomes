@@ -20,13 +20,16 @@ class RepositoryCharacterInfoImpl : RepositoryCharacterInfo {
 
     override val listCharacterComic = MutableLiveData<MutableList<Comics>?>()
 
+    override val hasAllServerCharacterDataLoaded = MutableLiveData<Boolean>()
+
     override fun getCharactersInfo(
         ts: String,
         apikey: String,
-        hash: String
+        hash: String,
+        queryServerOffSet: Int
     ) {
 
-        val characterInfos = remoteDataSource.getCharacterInfo(ts, apikey, hash)
+        val characterInfos = remoteDataSource.getCharacterInfo(ts, apikey, hash, queryServerOffSet)
 
         characterInfos.enqueue(object : Callback<CharactersApiResult> {
 
@@ -42,6 +45,10 @@ class RepositoryCharacterInfoImpl : RepositoryCharacterInfo {
                         .fromJson(responseJSON, CharactersApiResult::class.java)
 
                     listCharacterData.postValue(responseData.data.listCharacter)
+
+                    if (responseData.data.total < responseData.data.offset){
+                        hasAllServerCharacterDataLoaded.postValue(true)
+                    }
 
                 } else {
 

@@ -5,9 +5,13 @@
     xmlns:tools="http://schemas.android.com/tools"
     tools:context=".views.home.ui.home.HomeFragment">
 
-    <FrameLayout
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/fragment_home_W_internet_loading_placeholder_container"
@@ -132,20 +136,38 @@
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/fragment_home_main_RecyclerView_characters"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="632dp"
             android:layout_gravity="center_vertical"
             android:layout_marginStart="15dp"
-            android:layout_marginTop="10dp"
             android:layout_marginEnd="15dp"
-            android:layout_marginBottom="15dp"
             android:scrollbarSize="2.5dp"
             android:scrollbarThumbVertical="@android:color/darker_gray"
             android:scrollbars="vertical"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:listitem="@layout/card_character" />
+
+        <Button
+            android:id="@+id/fragment_home_button_load_more_data"
+            style="@style/Widget.MaterialComponents.Button"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="15dp"
+            android:layout_marginEnd="15dp"
+            android:layout_marginBottom="15dp"
+            android:enabled="true"
+            android:visibility="invisible"
+            android:paddingStart="15dp"
+            android:paddingEnd="15dp"
+            android:text="@string/fragment_home_button_load_more_data"
+            android:textSize="16sp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            tools:listitem="@layout/card_character" />
+            app:layout_constraintTop_toBottomOf="@+id/fragment_home_main_RecyclerView_characters"
+            tools:visibility="visible" />
 
-    </FrameLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
 </layout>

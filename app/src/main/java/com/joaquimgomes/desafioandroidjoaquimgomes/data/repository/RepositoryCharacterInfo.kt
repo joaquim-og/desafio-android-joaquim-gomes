@@ -1,11 +1,8 @@
 package com.joaquimgomes.desafioandroidjoaquimgomes.data.repository
 
-import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.joaquimgomes.desafioandroidjoaquimgomes.data.model.Character
-import com.joaquimgomes.desafioandroidjoaquimgomes.data.model.CharacterComicApiResult
 import com.joaquimgomes.desafioandroidjoaquimgomes.data.model.Comics
-import com.joaquimgomes.desafioandroidjoaquimgomes.data.model.CharactersApiResult
 
 interface RepositoryCharacterInfo {
 
@@ -13,7 +10,9 @@ interface RepositoryCharacterInfo {
 
     val listCharacterComic: MutableLiveData<MutableList<Comics>?>
 
-    fun getCharactersInfo(ts: String, apikey: String, hash: String)
+    val hasAllServerCharacterDataLoaded: MutableLiveData<Boolean>
+
+    fun getCharactersInfo(ts: String, apikey: String, hash: String, queryServerOffSet: Int)
 
     fun getCharacterComics(characterId: Int, ts: String, apikey: String, hash: String)
 

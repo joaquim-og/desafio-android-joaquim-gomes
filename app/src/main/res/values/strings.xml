@@ -22,4 +22,5 @@
     <string name="name_most_expansive_comic">Revista mais cara</string>
     <string name="character_has_comics">Qual é a revista mais cara?</string>
     <string name="character_has_no_comics">Esse personagem não tem revistas 😵</string>
+    <string name="fragment_home_button_load_more_data">Carregar mais personagens</string>
 </resources>

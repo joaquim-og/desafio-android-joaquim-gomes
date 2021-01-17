@@ -18,7 +18,11 @@ data class Character(
 data class ListCharacter(
 
     @SerializedName("results")
-    var listCharacter: List<Character>
+    var listCharacter: List<Character>,
+    @SerializedName("offset")
+    var offset: Int,
+    @SerializedName("total")
+    var total: Int
 
 )
 
@@ -26,6 +30,7 @@ data class CharactersApiResult(
 
     @SerializedName("data")
     var data: ListCharacter
+
 )
 
 data class CharacterThumbnailInfo(
