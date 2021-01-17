@@ -11,7 +11,7 @@ interface RepositoryCharacterInfo {
 
     val listCharacterData: MutableLiveData<List<Character>?>
 
-    val listCharacterComic: MutableLiveData<List<Comics>?>
+    val listCharacterComic: MutableLiveData<MutableList<Comics>?>
 
     fun getCharactersInfo(ts: String, apikey: String, hash: String)
 
