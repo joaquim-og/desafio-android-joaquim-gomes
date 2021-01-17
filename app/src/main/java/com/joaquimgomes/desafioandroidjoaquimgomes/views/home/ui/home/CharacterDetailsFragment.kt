@@ -106,7 +106,8 @@ class CharacterDetailsFragment : Fragment() {
 
         (activity as? AppCompatActivity)?.supportActionBar?.setDisplayHomeAsUpEnabled(true)
         (activity as? AppCompatActivity)?.supportActionBar?.setDisplayShowHomeEnabled(true)
-        (activity as? AppCompatActivity)?.supportActionBar?.title = getString(R.string.name_character_details)
+        (activity as? AppCompatActivity)?.supportActionBar?.title =
+            getString(R.string.name_character_details)
     }
 
 
@@ -117,7 +118,9 @@ class CharacterDetailsFragment : Fragment() {
         homeViewModel.characterComicsServerData.observe(viewLifecycleOwner, Observer { comics ->
 
             if (comics == null) {
-                toast.setToastMessage(context, R.string.error_no_server_data)
+
+                buttonNavToComic.text = getString(R.string.character_has_no_comics)
+
             } else {
 
                 val mostExpensiveComicInfo = homeViewModel.getCharacterMostExpensiveComic(comics)
@@ -126,9 +129,12 @@ class CharacterDetailsFragment : Fragment() {
 
                     mostExpensiveComicImg = mostExpensiveComicInfo.imgComic.toString()
                     mostExpensiveComicTitle = mostExpensiveComicInfo.titleComic.toString()
-                    mostExpensiveComicDescription = mostExpensiveComicInfo.descriptionComic.toString()
-                    mostExpensiveComicPrice = localeCurrency.currency?.toString() + " " + mostExpensiveComicInfo.highestPrice.toString()
+                    mostExpensiveComicDescription =
+                        mostExpensiveComicInfo.descriptionComic.toString()
+                    mostExpensiveComicPrice =
+                        localeCurrency.currency?.toString() + " " + mostExpensiveComicInfo.highestPrice.toString()
 
+                    buttonNavToComic.text = getString(R.string.character_has_comics)
                     buttonNavToComic.isEnabled = true
 
                 }

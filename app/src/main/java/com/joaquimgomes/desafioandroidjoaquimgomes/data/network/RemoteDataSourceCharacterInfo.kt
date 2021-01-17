@@ -32,6 +32,8 @@ class RemoteDataSourceCharacterInfo {
         hash: String
     ): Call<CharacterComicApiResult> = endpoint.getCharacterComics(characterId, ts, apikey, hash)
 
+    fun getMoreCharacterComics(characterId: Int, offsetParamInThisRequest: Int?, ts: String, apikey: String, hash: String): Call<CharacterComicApiResult> = endpoint.getMoreCharacterComics(characterId, offsetParamInThisRequest, ts, apikey, hash)
+
 }
 
 

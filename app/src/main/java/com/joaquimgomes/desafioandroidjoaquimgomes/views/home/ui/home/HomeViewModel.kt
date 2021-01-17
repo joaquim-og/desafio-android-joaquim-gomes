@@ -24,7 +24,7 @@ class HomeViewModel(private val repository: RepositoryCharacterInfo = Repository
         get() = _charactersServerData
 
     private val _characterComicsServerData = repository.listCharacterComic
-    val characterComicsServerData: LiveData<List<Comics>?>
+    val characterComicsServerData: LiveData<MutableList<Comics>?>
         get() = _characterComicsServerData
 
 
@@ -84,8 +84,9 @@ class HomeViewModel(private val repository: RepositoryCharacterInfo = Repository
     }
 
     fun clearAllCharactersInfo() {
+
         _charactersServerData.value = emptyList()
-        _characterComicsServerData.value = emptyList()
+        _characterComicsServerData.value = mutableListOf<Comics>()
         _characterComicsServerData.notifyObserver()
         _charactersServerData.notifyObserver()
     }

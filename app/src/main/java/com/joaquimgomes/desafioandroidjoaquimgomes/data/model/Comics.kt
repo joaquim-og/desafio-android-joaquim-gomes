@@ -20,7 +20,13 @@ data class Comics (
 data class ListComics(
 
     @SerializedName("results")
-    var listComics: List<Comics>
+    var listComics: MutableList<Comics>,
+    @SerializedName("offset")
+    var offset: Int? = null,
+    @SerializedName("total")
+    var total: Int? = null,
+    @SerializedName("count")
+    var count:Int? = null
 
 )
 

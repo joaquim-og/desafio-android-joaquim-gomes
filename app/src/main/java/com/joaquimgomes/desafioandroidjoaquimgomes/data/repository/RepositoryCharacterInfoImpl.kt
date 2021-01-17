@@ -18,7 +18,7 @@ class RepositoryCharacterInfoImpl : RepositoryCharacterInfo {
 
     override val listCharacterData = MutableLiveData<List<Character>?>()
 
-    override val listCharacterComic = MutableLiveData<List<Comics>?>()
+    override val listCharacterComic = MutableLiveData<MutableList<Comics>?>()
 
     override fun getCharactersInfo(
         ts: String,
@@ -70,35 +70,147 @@ class RepositoryCharacterInfoImpl : RepositoryCharacterInfo {
 
         characterComicInfos.enqueue(object : Callback<CharacterComicApiResult> {
 
-                override fun onResponse(
-                    call: Call<CharacterComicApiResult>,
-                    response: Response<CharacterComicApiResult>
-                ) {
+            override fun onResponse(
+                call: Call<CharacterComicApiResult>,
+                response: Response<CharacterComicApiResult>
+            ) {
 
-                    if (response.isSuccessful) {
+                if (response.isSuccessful) {
 
-                        val responseJSON = Gson().toJson(response.body())
-                        val responseData = GsonBuilder().create()
-                            .fromJson(responseJSON, CharacterComicApiResult::class.java)
+                    val responseJSON = Gson().toJson(response.body())
+                    val responseData = GsonBuilder().create()
+                        .fromJson(responseJSON, CharacterComicApiResult::class.java)
 
-                        listCharacterComic.postValue(responseData.data.listComics)
+                    val firstListComics = responseData.data.listComics
+                    val totalCharacterComics = responseData.data.total
+                    val countAllComicsInThisResponse = responseData.data.count
+                    val offsetParamInThisResponse = responseData.data.offset
 
-                        //TODO -> if listcharacter lenght < total comic lenghs, make a new reques and add denw data until all comic is in listcharacter
+                    if (totalCharacterComics!! < countAllComicsInThisResponse!!) {
+
+                        requestServerAdditionalInfo(
+                            firstListComics,
+                            totalCharacterComics,
+                            offsetParamInThisResponse,
+                            characterId,
+                            ts,
+                            apikey,
+                            hash
+                        )
+
+                    } else if (totalCharacterComics == 0) {
+
+                        listCharacterComic.postValue(null)
 
                     } else {
 
-                        listCharacterComic.postValue(null)
+                        listCharacterComic.postValue(firstListComics)
+
+                    }
+                }
+            }
+
+            override fun onFailure(call: Call<CharacterComicApiResult>, e: Throwable) {
+                e.printStackTrace()
+            }
+
+        })
+    }
+
+    private fun requestServerAdditionalInfo(
+        ListComics: MutableList<Comics>,
+        totalCharacterComics: Int,
+        offsetParamInPreviousResponse: Int?,
+        characterId: Int,
+        ts: String,
+        apikey: String,
+        hash: String
+    ) {
+
+        val listComics = ListComics
+
+        val offsetParamInThisRequest = offsetParamInPreviousResponse?.plus(listComics.size)
+
+        val getCharacterMoreComicInfos = remoteDataSource.getMoreCharacterComics(
+            characterId,
+            offsetParamInThisRequest,
+            ts,
+            apikey,
+            hash
+        )
+
+        getCharacterMoreComicInfos.enqueue(object : Callback<CharacterComicApiResult> {
+
+            override fun onResponse(
+                call: Call<CharacterComicApiResult>,
+                response: Response<CharacterComicApiResult>
+            ) {
+
+                if (response.isSuccessful) {
+
+                    val responseJSON = Gson().toJson(response.body())
+                    val responseData = GsonBuilder().create()
+                        .fromJson(responseJSON, CharacterComicApiResult::class.java)
+
+                    val newResponseListComics = responseData.data.listComics
+                    val newCountAllComicsInThisResponse = responseData.data.count
+
+                    for (comic in newResponseListComics) {
+                        listComics.add(comic)
+                    }
+
+                    if (totalCharacterComics!! < offsetParamInThisRequest?.plus(
+                            newCountAllComicsInThisResponse!!
+                        )!!
+                    ) {
+
+                        getCharacterMoreComics(
+                            listComics,
+                            newCountAllComicsInThisResponse!!,
+                            offsetParamInThisRequest!!,
+                            characterId,
+                            ts,
+                            apikey,
+                            hash
+                        )
+
+                    } else {
+
+                        listCharacterComic.postValue(listComics)
 
                     }
 
                 }
 
-                override fun onFailure(call: Call<CharacterComicApiResult>, e: Throwable) {
-                    e.printStackTrace()
-                }
+            }
 
-            })
+            override fun onFailure(call: Call<CharacterComicApiResult>, t: Throwable) {
+                t.printStackTrace()
+            }
 
+        })
     }
 
+    private fun getCharacterMoreComics(
+        listComics: MutableList<Comics>,
+        countAllComicsInPreviousResponse: Int,
+        offsetParamInPreviousRequest: Int,
+        characterId: Int,
+        ts: String,
+        apikey: String,
+        hash: String
+    ) {
+
+        requestServerAdditionalInfo(
+            listComics,
+            countAllComicsInPreviousResponse,
+            offsetParamInPreviousRequest,
+            characterId,
+            ts,
+            apikey,
+            hash
+        )
+
+    }
 }
+
