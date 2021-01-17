@@ -83,6 +83,8 @@ class RepositoryCharacterInfoImpl : RepositoryCharacterInfo {
 
                         listCharacterComic.postValue(responseData.data.listComics)
 
+                        //TODO -> if listcharacter lenght < total comic lenghs, make a new reques and add denw data until all comic is in listcharacter
+
                     } else {
 
                         listCharacterComic.postValue(null)

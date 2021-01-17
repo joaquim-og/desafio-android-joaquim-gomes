@@ -10,10 +10,8 @@ import com.joaquimgomes.desafioandroidjoaquimgomes.data.model.CharactersApiResul
 interface RepositoryCharacterInfo {
 
     val listCharacterData: MutableLiveData<List<Character>?>
-        get() = MutableLiveData<List<Character>?>()
 
     val listCharacterComic: MutableLiveData<List<Comics>?>
-        get() = MutableLiveData<List<Comics>?>()
 
     fun getCharactersInfo(ts: String, apikey: String, hash: String)
 

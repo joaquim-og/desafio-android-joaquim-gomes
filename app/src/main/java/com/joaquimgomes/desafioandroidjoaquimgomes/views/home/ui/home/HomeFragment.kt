@@ -5,6 +5,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.appcompat.app.AppCompatActivity
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.view.isVisible
 import androidx.databinding.DataBindingUtil
@@ -44,6 +45,7 @@ class HomeFragment : Fragment() {
 
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_home, container, false)
 
+        clearAllCharactersInfo()
         toast = SetToastMessage()
         verifyNetwork = VerifyNetwork()
 
@@ -72,8 +74,7 @@ class HomeFragment : Fragment() {
 
         homeViewModel.charactersServerData.observe(viewLifecycleOwner, Observer { characters ->
 
-            if (characters.isNullOrEmpty()) {
-                toast.setToastMessage(context, R.string.error_no_server_data)
+            if (characters == null) {
                 hideImgLoading()
                 showImgNoServerData()
 //                showButtonReload()
@@ -125,6 +126,10 @@ class HomeFragment : Fragment() {
 
         charactersRecyclerView.layoutManager = LinearLayoutManager(this.context)
 
+        (activity as? AppCompatActivity)?.supportActionBar?.setDisplayHomeAsUpEnabled(false)
+        (activity as? AppCompatActivity)?.supportActionBar?.setDisplayShowHomeEnabled(false)
+        (activity as? AppCompatActivity)?.supportActionBar?.title = getString(R.string.app_name)
+
     }
 
     private fun setBindingsVariables() {
@@ -141,6 +146,7 @@ class HomeFragment : Fragment() {
     }
 
     private fun showImgNoServerData() {
+        toast.setToastMessage(context, R.string.error_no_server_data)
         imgErrorNoData.isVisible = true
     }
 
@@ -151,6 +157,10 @@ class HomeFragment : Fragment() {
     private fun showNoNetworkError() {
         toast.setToastMessage(context, R.string.no_network)
         imgErrorNoNetwork.isVisible = true
+    }
+
+    private fun clearAllCharactersInfo() {
+        homeViewModel.clearAllCharactersInfo()
     }
 
 }

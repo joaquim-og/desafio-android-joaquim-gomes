@@ -6,15 +6,17 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.*
+import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
+import androidx.navigation.fragment.findNavController
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.bitmap.FitCenter
 import com.google.android.material.textfield.TextInputEditText
 import com.joaquimgomes.desafioandroidjoaquimgomes.R
+import com.joaquimgomes.desafioandroidjoaquimgomes.data.commom.GetCurrency
 import com.joaquimgomes.desafioandroidjoaquimgomes.data.commom.SetToastMessage
-import com.joaquimgomes.desafioandroidjoaquimgomes.data.model.Comics
 import com.joaquimgomes.desafioandroidjoaquimgomes.databinding.FragmentCharacterDetailsBinding
 
 class CharacterDetailsFragment : Fragment() {
@@ -31,11 +33,11 @@ class CharacterDetailsFragment : Fragment() {
     private lateinit var buttonNavToComic: Button
     private lateinit var toast: SetToastMessage
 
-    private var mostExpansiveComicImg = ""
-    private var mostExpansiveComicTitle = ""
-    private var mostExpansiveComicDescription = ""
+    private var mostExpensiveComicImg = ""
+    private var mostExpensiveComicTitle = ""
+    private var mostExpensiveComicDescription = ""
 
-    private var mostExpansiveComicPrice = ""
+    private var mostExpensiveComicPrice = ""
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -96,28 +98,36 @@ class CharacterDetailsFragment : Fragment() {
 
         }
 
-        Glide.with(this).load(characterImgUrl).transform(FitCenter())
+        Glide.with(this).load(characterImgUrl)
+            .fallback(R.drawable.ic_baseline_image_not_supported_24).transform(FitCenter())
             .into(characterImageContainer)
 
+
+
+        (activity as? AppCompatActivity)?.supportActionBar?.setDisplayHomeAsUpEnabled(true)
+        (activity as? AppCompatActivity)?.supportActionBar?.setDisplayShowHomeEnabled(true)
+        (activity as? AppCompatActivity)?.supportActionBar?.title = getString(R.string.name_character_details)
     }
 
 
     private fun observerAllComics() {
 
+        val localeCurrency = GetCurrency().localeCurrency()
+
         homeViewModel.characterComicsServerData.observe(viewLifecycleOwner, Observer { comics ->
 
-            if (comics.isNullOrEmpty()) {
+            if (comics == null) {
                 toast.setToastMessage(context, R.string.error_no_server_data)
             } else {
 
-                val mostExpansiveComicInfo = homeViewModel.getCharacterMostExpansiveComic(comics)
+                val mostExpensiveComicInfo = homeViewModel.getCharacterMostExpensiveComic(comics)
 
-                if (!mostExpansiveComicInfo.isNullOrEmpty()){
+                if (mostExpensiveComicInfo != null) {
 
-                    mostExpansiveComicImg = ""
-                    mostExpansiveComicTitle = ""
-                    mostExpansiveComicDescription = ""
-                    mostExpansiveComicPrice = ""
+                    mostExpensiveComicImg = mostExpensiveComicInfo.imgComic.toString()
+                    mostExpensiveComicTitle = mostExpensiveComicInfo.titleComic.toString()
+                    mostExpensiveComicDescription = mostExpensiveComicInfo.descriptionComic.toString()
+                    mostExpensiveComicPrice = localeCurrency.currency?.toString() + " " + mostExpensiveComicInfo.highestPrice.toString()
 
                     buttonNavToComic.isEnabled = true
 
@@ -130,21 +140,15 @@ class CharacterDetailsFragment : Fragment() {
 
     private fun navigateToCharacterComic() {
 
-        Toast.makeText(context, "AQUI AS INFO DA REVISTA MAIS CARA -> $mostExpansiveComicImg | $mostExpansiveComicTitle | $mostExpansiveComicDescription | $mostExpansiveComicPrice", Toast.LENGTH_LONG).show()
+        val argsToMostExpensiveComic =
+            CharacterDetailsFragmentDirections.actionCharacterDetailsFragmentToCharacterMostExpensiveComicFragment(
+                mostExpensiveComicImg,
+                mostExpensiveComicTitle,
+                mostExpensiveComicDescription,
+                mostExpensiveComicPrice
+            )
 
-//        TODO pass most expansive comic details
-//
-//        val argsToConfirmDialog =
-//            ExpenseFragmentDirections.actionExpenseFragmentToExpenseFragmentConfirmChangesDialog(
-//                category,
-//                dateExpense,
-//                description,
-//                value,
-//                idExpense,
-//                urlImgExpense
-//            )
-//
-//        this.findNavController().navigate(argsToConfirmDialog)
+        this.findNavController().navigate(argsToMostExpensiveComic)
 
     }
 
