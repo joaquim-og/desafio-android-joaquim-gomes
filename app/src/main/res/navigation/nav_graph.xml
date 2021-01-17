@@ -9,14 +9,14 @@
         android:id="@+id/homeFragment"
         android:name="com.joaquimgomes.desafioandroidjoaquimgomes.views.home.ui.home.HomeFragment"
         android:label="@string/name_home"
-        tools:layout="@layout/fragment_home" >
+        tools:layout="@layout/fragment_home">
         <action
             android:id="@+id/action_homeFragment_to_characterDetailsFragment"
             app:destination="@id/characterDetailsFragment"
             app:enterAnim="@anim/nav_default_enter_anim"
             app:exitAnim="@anim/nav_default_exit_anim"
             app:popEnterAnim="@anim/nav_default_pop_enter_anim"
-            app:popExitAnim="@anim/nav_default_pop_exit_anim" >
+            app:popExitAnim="@anim/nav_default_pop_exit_anim">
 
             <argument
                 android:name="characterName"
@@ -33,9 +33,45 @@
 
         </action>
     </fragment>
+
     <fragment
         android:id="@+id/characterDetailsFragment"
         android:name="com.joaquimgomes.desafioandroidjoaquimgomes.views.home.ui.home.CharacterDetailsFragment"
-        android:label="fragment_character_details"
-        tools:layout="@layout/fragment_character_details" />
+        android:label="@string/name_character_details"
+        tools:layout="@layout/fragment_character_details">
+        <action
+            android:id="@+id/action_characterDetailsFragment_to_characterMostExpensiveComicFragment"
+            app:destination="@id/characterMostExpensiveComicFragment"
+            app:enterAnim="@anim/nav_default_enter_anim"
+            app:exitAnim="@anim/nav_default_exit_anim"
+            app:popEnterAnim="@anim/nav_default_pop_enter_anim"
+            app:popExitAnim="@anim/nav_default_pop_exit_anim">
+
+            <argument
+                android:name="mostExpensiveComicImg"
+                app:argType="string"
+                app:nullable="true" />
+            <argument
+                android:name="mostExpensiveComicTitle"
+                app:argType="string"
+                app:nullable="true" />
+            <argument
+                android:name="mostExpensiveComicDescription"
+                app:argType="string"
+                app:nullable="true" />
+            <argument
+                android:name="mostExpensiveComicPrice"
+                app:argType="string"
+                app:nullable="true" />
+
+        </action>
+    </fragment>
+
+    <fragment
+        android:id="@+id/characterMostExpensiveComicFragment"
+        android:name="com.joaquimgomes.desafioandroidjoaquimgomes.views.home.ui.home.CharacterMostExpensiveFragment"
+        android:label="@string/name_most_expansive_comic"
+        tools:layout="@layout/fragment_character_most_expensive_comic" />
+
+
 </navigation>

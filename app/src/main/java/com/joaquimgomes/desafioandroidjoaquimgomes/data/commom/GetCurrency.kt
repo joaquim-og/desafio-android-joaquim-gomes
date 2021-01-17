@@ -10,7 +10,7 @@ class GetCurrency {
         val localeNumberFormatter = NumberFormat.getCurrencyInstance()
         localeNumberFormatter.maximumFractionDigits = 2
 
-        localeNumberFormatter.currency = Currency.getInstance(Locale.getDefault())
+        localeNumberFormatter.currency = Currency.getInstance(Locale.US)
 
         return localeNumberFormatter
     }

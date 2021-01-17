@@ -17,7 +17,7 @@ interface MarvelApi {
     @GET("/v1/public/characters?orderBy=name")
     fun allCharactersInfo(@Query("ts") ts: String, @Query("apikey") apikey: String, @Query("hash") hash: String): Call<CharactersApiResult>
 
-    @GET("/v1/public/characters/{id}/comics?format=comic&formatType=comic")
+    @GET("/v1/public/characters/{id}/comics?limit=100&format=comic&formatType=comic")
     fun getCharacterComics(@Path("id") id: Int, @Query("ts") ts: String, @Query("apikey") apikey: String, @Query("hash") hash: String): Call<CharacterComicApiResult>
 
 }

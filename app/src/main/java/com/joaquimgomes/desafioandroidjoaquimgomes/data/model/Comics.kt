@@ -8,6 +8,8 @@ data class Comics (
     var id: Number? = null,
     @SerializedName("title")
     var title: String? = null,
+    @SerializedName("description")
+    var description: String? = null,
     @SerializedName("prices")
     var prices: List<ComicsPricesInfo>,
     @SerializedName("thumbnail")
@@ -43,5 +45,15 @@ data class ComicsPricesInfo(
     var type: String? = null,
     @SerializedName("price")
     var price: Number? = null
+
+)
+
+data class ComicsWithHighestPrice (
+
+    var idComic: Int? = null,
+    var imgComic: String? = null,
+    var titleComic: String? = null,
+    var descriptionComic: String? = null,
+    var highestPrice: Number? = null
 
 )

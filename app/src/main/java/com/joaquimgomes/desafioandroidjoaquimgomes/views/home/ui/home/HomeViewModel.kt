@@ -4,15 +4,15 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.joaquimgomes.desafioandroidjoaquimgomes.data.commom.GetCurrency
-import com.joaquimgomes.desafioandroidjoaquimgomes.data.model.Character
-import com.joaquimgomes.desafioandroidjoaquimgomes.data.model.Comics
+import com.joaquimgomes.desafioandroidjoaquimgomes.data.model.*
 import com.joaquimgomes.desafioandroidjoaquimgomes.data.repository.RepositoryCharacterInfo
 import com.joaquimgomes.desafioandroidjoaquimgomes.data.repository.RepositoryCharacterInfoImpl
 import java.math.BigInteger
 import java.security.MessageDigest
 import java.sql.Timestamp
 
-class HomeViewModel(private val repository: RepositoryCharacterInfo = RepositoryCharacterInfoImpl()): ViewModel() {
+class HomeViewModel(private val repository: RepositoryCharacterInfo = RepositoryCharacterInfoImpl()) :
+    ViewModel() {
 
     private val localeNumberFormatter = GetCurrency().localeCurrency()
     private val ts = Timestamp(System.currentTimeMillis()).time.toString()
@@ -31,16 +31,44 @@ class HomeViewModel(private val repository: RepositoryCharacterInfo = Repository
     fun getAllCharactersInfo() = repository.getCharactersInfo(ts, apikey, hash)
 
 
-    fun getAllCharacterComics(characterId: Number?) = characterId?.toInt()?.let { repository.getCharacterComics(it, ts, apikey, hash) }
+    fun getAllCharacterComics(characterId: Number?) =
+        characterId?.toInt()?.let { repository.getCharacterComics(it, ts, apikey, hash) }
 
 
-    fun getCharacterMostExpansiveComic(comics: List<Comics>): List<Comics> {
+    fun getCharacterMostExpensiveComic(comics: List<Comics>): ComicsWithHighestPrice? {
 
-//        TODO catch all data and query most expansive
+        val comicsIdAndHighestPrice = mutableListOf<ComicsWithHighestPrice>()
 
-        println("AQUI AS REVISTAS RECEBIDAS -> $comics")
+        comics.forEach { comic ->
 
-        return comics
+            val idComic = comic.id?.toInt()!!
+            val imgComic =
+                comic.characterComicsThumbnail.path + "." + comic.characterComicsThumbnail.extension
+            val titleComic = comic.title
+            val descriptionComic = comic.description
+
+            val pricesListComplete = comic.prices
+            val highestPrice = pricesListComplete.maxByOrNull { listPrices ->
+                listPrices.price?.toDouble()!!
+            }
+
+            val comicList =
+                ComicsWithHighestPrice(
+                    idComic,
+                    imgComic,
+                    titleComic,
+                    descriptionComic,
+                    highestPrice?.price)
+
+
+            comicsIdAndHighestPrice.add(comicList)
+
+
+        }
+
+        return comicsIdAndHighestPrice.maxByOrNull { comicMostExpensive ->
+            comicMostExpensive.highestPrice?.toDouble()!!
+        }
 
     }
 
@@ -50,8 +78,16 @@ class HomeViewModel(private val repository: RepositoryCharacterInfo = Repository
         val messageDigest = MessageDigest.getInstance("MD5")
         val input = ts.toString() + "46ea55eac09fed97f3886a915add17175c160f50" + apikey
 
-        return BigInteger(1,messageDigest.digest(input.toByteArray())).toString(16).padStart(32, '0')
+        return BigInteger(1, messageDigest.digest(input.toByteArray())).toString(16)
+            .padStart(32, '0')
 
+    }
+
+    fun clearAllCharactersInfo() {
+        _charactersServerData.value = emptyList()
+        _characterComicsServerData.value = emptyList()
+        _characterComicsServerData.notifyObserver()
+        _charactersServerData.notifyObserver()
     }
 
     private fun <T> MutableLiveData<T>.notifyObserver() {
